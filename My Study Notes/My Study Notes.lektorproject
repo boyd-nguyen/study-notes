@@ -1,2 +1,5 @@
 [project]
 name = My Study Notes
+
+[packages]
+lektor-markdown-header-anchors = 0.3.1

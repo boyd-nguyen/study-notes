@@ -3,6 +3,6 @@
    render_project_list %}
 {% block title %}Project Category {{ this.name }}{% endblock %}
 {% block body %}
-  <h1>Project Category {{ this.name }}</h1>
+  <h1>{{ this.name }}</h1>
   {{ render_project_list(this.children) }}
 {% endblock %}
