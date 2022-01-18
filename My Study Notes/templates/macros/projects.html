@@ -1,0 +1,18 @@
+{% macro render_category_nav(active=none) %}
+  <ul class="resource-category list-group-flush">
+  {% for category in site.query('/learning-areas') %}
+    <li{% if category._id == active %} class="active list-group-item d-flex justify-content-between align-items-center" {% endif
+      %} class="list-group-item d-flex justify-content-between align-items-center"><a href="{{ category|url }}">{{ category.name }}</a></li>
+  {% endfor %}
+  </ul>
+{% endmacro %}
+
+{% macro render_project_list(projects) %}
+  <ul class="resources list-group-flush">
+  {% for project in projects %}
+    <li class="resource list-group-item d-flex justify-content-between align-items-center">
+    <a href="{{ project|url }}">{{ project.name }}</a></li>
+    <span class="badge bg-primary rounded-pill">{{ project.category }}</span>
+  {% endfor %}
+  </ul>
+{% endmacro %}

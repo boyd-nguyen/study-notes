@@ -7,22 +7,26 @@
 <body>
   <header class="container px-5">
     <h1 class="display-1">My Study Notes</h1>
-    <nav>
-      <ul class="nav navbar-nav">
-        <li{% if this._path == '/' %} class="active"{% endif
-          %}><a href="{{ '/'|url }}">Welcome</a></li>
-        {% for href, title in [
-          ['/blog', 'Blog'],
-          ['/projects', 'Projects'],
-          ['/about', 'About']
-        ] %}
-          <li{% if this.is_child_of(href) %} class="active"{% endif
-            %}><a href="{{ href|url }}">{{ title }}</a></li>
-        {% endfor %}
+    <nav class="container pt-4">
+      <ul class="nav justify-content-center nav-pills">
+        <li class="nav-item">
+          <a href="{{ '/'|url }}" {% if this._path == '/' %} class="active nav-link"{% endif%} class="nav-link">Welcome</a>
+        </li>
+        
+        <li class="dropdown nav-item">
+          <a href="#" {% if this.is_child_of("learning-areas") or this.is_child_of("topics") %} class="active nav-link dropdown-toggle"{% endif %} class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Learning areas</a>
+          <ul class="dropdown-menu">
+          <li><a href="{{ '/learning-areas'|url}}" class="dropdown-item">Learning Areas</a></li>
+          <li><hr class="dropdown-divider"></hr></li>
+          <li><h6 class="dropdown-header">Areas</h6></li>
+          {% for category in site.query("/learning-areas") %}
+              <li><a href="{{ category|url }}" class="dropdown-item">{{ category.name }}</a></li>
+           {% endfor %}
+          </ul>
       </ul>
     </nav>
   </header>
-  <div class="page">
+  <div class="container pt-5 px-5">
     {% block body %}{% endblock %}
   </div>
   <footer>
