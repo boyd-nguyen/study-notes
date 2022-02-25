@@ -6,7 +6,7 @@
 <title>{% block title %}Welcome{% endblock %} — My Study Notes</title>
 <body>
   <header class="container px-5">
-    <h1 class="display-1">My Study Notes</h1>
+    <h1 class="display-1">Boyd's Coda</h1>
     <nav class="container pt-4">
       <ul class="nav justify-content-center nav-pills">
         <li class="nav-item">
@@ -14,7 +14,7 @@
         </li>
         
         <li class="dropdown nav-item">
-          <a href="#" {% if this.is_child_of("learning-areas") or this.is_child_of("topics") %} class="active nav-link dropdown-toggle"{% endif %} class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Learning areas</a>
+          <a href="#" {% if this.is_child_of("/topics") or this.is_child_of("learning-areas") %} class="active nav-link dropdown-toggle"{% endif %} class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Coda</a>
           <ul class="dropdown-menu">
           <li><a href="{{ '/learning-areas'|url}}" class="dropdown-item">Learning Areas</a></li>
           <li><hr class="dropdown-divider"></hr></li>
@@ -23,6 +23,10 @@
               <li><a href="{{ category|url }}" class="dropdown-item">{{ category.name }}</a></li>
            {% endfor %}
           </ul>
+        
+          <li class="nav-item">
+            <a href="{{ '/blog'|url }}" {% if this.is_child_of("blog") %} class="active nav-link"{% endif%} class="nav-link">Blog</a>
+          </li>
       </ul>
     </nav>
   </header>
