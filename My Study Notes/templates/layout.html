@@ -5,9 +5,9 @@
 <link rel="stylesheet" href="{{ '/static/style_custom.css'|url }}">
 <title>{% block title %}Welcome{% endblock %} — My Study Notes</title>
 <body>
-  <header class="container px-5">
+  <header class="container-md">
     <h1 class="display-1">Boyd's Coda</h1>
-    <nav class="container pt-4">
+    <nav class="container pt-4 pb-4">
       <ul class="nav justify-content-center nav-pills">
         <li class="nav-item">
           <a href="{{ '/'|url }}" {% if this._path == '/' %} class="active nav-link"{% endif%} class="nav-link">Welcome</a>
@@ -30,7 +30,7 @@
       </ul>
     </nav>
   </header>
-  <div class="container pt-5 px-5">
+  <div class="container-md">
     {% block body %}{% endblock %}
   </div>
   <footer>
