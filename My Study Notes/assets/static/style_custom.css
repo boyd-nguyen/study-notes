@@ -85,3 +85,11 @@ pre {
 .container-md {
   max-width: 900px !important;
 }
+
+div.body {
+  margin-top: 5%;
+}
+
+div.author {
+  text-align: center;
+}

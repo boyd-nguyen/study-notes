@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block title %}{{ this.title }} | My Blog{% endblock %}
+{% block body %}
+  <h1>{{ this.title }}</h1>
+  <div class="author">by {{ this.author }}</div>
+  <div class="body">{{ this.body }}</div>
+{% endblock %}
