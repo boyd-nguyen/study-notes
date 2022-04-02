@@ -2,16 +2,21 @@
 {% from "macros/pagination.html" import render_pagination %}
 {% block title %}My Blog{% endblock %}
 {% block body %}
-  <h1>My Blog</h1>
+  <h2>Blog</h2>
 
-  <ul class="blog-index">
-  {% for post in this.pagination.items %}
-    <li>
-      <a href="{{ post|url }}">{{ post.title }}</a> —
-      on {{ post.pub_date|dateformat }}
-    </li>
-  {% endfor %}
-  </ul>
+  <div class="body">
+
+    <ul class="resources list-group-flush">
+    {% for post in this.pagination.items %}
+      <li class="list-group-item d-flex align-items-center">
+        <span class="blur">{{ post.pub_date|dateformat }}</span> &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ post|url }}" class="flex-fill">{{ post.title }}</a>
+        <span class="badge bg-primary rounded-pill ">{{ '/'.join(post.categories) }}</span>
+      </li>
+    {% endfor %}
+    </ul>
+
+  </div>
 
   {% if this.pagination.pages > 1 %}
     {{ render_pagination(this.pagination) }}

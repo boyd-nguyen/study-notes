@@ -8,53 +8,47 @@
 
 <link rel="stylesheet" href="{{ '/static/style_custom.css'|url }}">
 
-<title>{% block title %}Welcome{% endblock %} — My Study Notes</title>
+<title>Boyd Nguyen</title>
 
 <body>
   <header class="container-md">
-    <h1 class="display-1">Boyd's Coda</h1>
+    <h1 class="title">Boyd Nguyen</h1>
     <nav class="container pb-4">
       <ul class="nav justify-content-center nav-pills">
         <li class="nav-item">
           <a href="{{ '/'|url }}" {% if this._path=='/' %} class="active nav-link" {% endif%}
-            class="nav-link">Welcome</a>
+            class="nav-link">About</a>
         </li>
 
-        <li class="dropdown nav-item">
-          <a href="#" {% if this.is_child_of("/topics") or this.is_child_of("learning-areas") %}
-            class="active nav-link dropdown-toggle" {% endif %} class="nav-link dropdown-toggle"
-            data-bs-toggle="dropdown">Coda</a>
-          <ul class="dropdown-menu">
-            <li><a href="{{ '/learning-areas'|url}}" class="dropdown-item">Learning Areas</a></li>
-            <li>
-              <hr class="dropdown-divider">
-              </hr>
-            </li>
-            <li>
-              <h6 class="dropdown-header">Areas</h6>
-            </li>
-            {% for category in site.query("/learning-areas") %}
-            <li><a href="{{ category|url }}" class="dropdown-item">{{ category.name }}</a></li>
-            {% endfor %}
-          </ul>
 
-        <li class="nav-item">
-          <a href="{{ '/blog'|url }}" {% if this.is_child_of("blog") %} class="active nav-link" {% endif%}
-            class="nav-link">Blog</a>
+        <li class="dropdown nav-item">
+          
+          <a href="#" {% if this.is_child_of("blog") %} class="active nav-link dropdown-toggle" {% endif%}
+            class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Blog</a>
+          
+          <ul class="dropdown-menu">
+            <li><a href="{{ '/categories'|url}}" class="dropdown-item">By topics</a></li>
+
+            <li><a href="{{ '/blog'|url }}" class="dropdown-item">All posts</a></li>
+          </ul>
+          
         </li>
 
         <li class="nav-item">
           <a href="{{ '/book-notes'|url }}" {% if this.is_child_of("book-notes") %} class="active nav-link" {% endif%}
           class="nav-link">Book notes</a>
         </li>
-        
+
       </ul>
     </nav>
   </header>
   <div class="container-md">
     {% block body %}{% endblock %}
   </div>
-  <footer>
-    &copy; Copyright 2022 by Boyd Nguyen.
-  </footer>
+  
+  <div class="container-md footer">
+    <footer>
+      &copy; Copyright 2022 by Boyd Nguyen.
+    </footer>
+</div>
 </body>
