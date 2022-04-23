@@ -1,5 +1,8 @@
 [project]
-name = My Study Notes
+name = Boyd Nguyen
 
 [packages]
 lektor-markdown-header-anchors = 0.3.1
+
+[servers.ghpages]
+target = ghpages://boyd-nguyen/boyd-nguyen.github.io
