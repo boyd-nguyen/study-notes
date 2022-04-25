@@ -1,0 +1,186 @@
+title: Working with factors in R (Part 1)
+---
+body:
+
+Factors are R's way of dealing with categorical data - data points which fall into a finite number of categories. A few examples of categorical data are gender (male, female) and income bracket (low, middle, hight).
+
+Factors are quite useful as they offer additional functionalities compared to character type.
+
+We can use base R functions to work with factors, or take advantage of other R packages that are specifically developed for this purpose such as `forcats`.
+
+For the purpose of illustration I will use a [small dataset](https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction?resource=download&select=heart.csv) from Kaggle. This dataset contains the health information, including chest pain type, blood pressure, and cholesterol level, of 918 people.
+
+```r
+> data <- read.csv("heart.csv",
+                 header = TRUE,
+                 encoding = "utf-8")
+> glimpse(data)
+
+Rows: 918
+Columns: 12
+$ Age            <int> 40, 49, 37, 48, 54, 39, 45, 54, 37, 48, 37, 58, 39, 49, 42, 54, 38, 43, 60, 36, 43, 44, 49, 44, 40, 36, 53, 52…
+$ Sex            <chr> "M", "F", "M", "F", "M", "M", "F", "M", "M", "F", "F", "M", "M", "M", "F", "F", "M", "F", "M", "M", "F", "M", …
+$ ChestPainType  <chr> "ATA", "NAP", "ATA", "ASY", "NAP", "NAP", "ATA", "ATA", "ASY", "ATA", "NAP", "ATA", "ATA", "ASY", "NAP", "ATA"…
+$ RestingBP      <int> 140, 160, 130, 138, 150, 120, 130, 110, 140, 120, 130, 136, 120, 140, 115, 120, 110, 120, 100, 120, 100, 120, …
+$ Cholesterol    <int> 289, 180, 283, 214, 195, 339, 237, 208, 207, 284, 211, 164, 204, 234, 211, 273, 196, 201, 248, 267, 223, 184, …
+$ FastingBS      <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,…
+$ RestingECG     <chr> "Normal", "Normal", "ST", "Normal", "Normal", "Normal", "Normal", "Normal", "Normal", "Normal", "Normal", "ST"…
+$ MaxHR          <int> 172, 156, 98, 108, 122, 170, 170, 142, 130, 120, 142, 99, 145, 140, 137, 150, 166, 165, 125, 160, 142, 142, 16…
+$ ExerciseAngina <chr> "N", "N", "N", "Y", "N", "N", "N", "N", "Y", "N", "N", "Y", "N", "Y", "N", "N", "N", "N", "N", "N", "N", "N", …
+$ Oldpeak        <dbl> 0.0, 1.0, 0.0, 1.5, 0.0, 0.0, 0.0, 0.0, 1.5, 0.0, 0.0, 2.0, 0.0, 1.0, 0.0, 1.5, 0.0, 0.0, 1.0, 3.0, 0.0, 1.0, …
+$ ST_Slope       <chr> "Up", "Flat", "Up", "Flat", "Up", "Up", "Up", "Up", "Flat", "Up", "Up", "Flat", "Up", "Flat", "Up", "Flat", "F…
+$ HeartDisease   <int> 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1,…
+```
+
+### Converting variables to factor
+
+#### Converting one variable
+
+A quick look shows that the `Sex` variable can be coded as a factor. The cleanest way to do that is to combine the base R `as.factor()` function with the `%<>%` assignment pipe from the `magrittr` package.
+
+```r
+library(magrittr)
+
+data$Sex %<>% as.factor()
+```
+
+The assignment pipe essentially runs the code to the right of the expression and assigns the result back to the variable in the left.
+
+#### Converting multiple variables
+
+Categories are quite common in datasets. If we look at the `heart` dataset, all of the other character-type columns in fact should also be dealt with as factors. We can confirm this by checking the number of unique values for each variable.
+
+```r
+# define a custom function that counts the number of unique values in a column
+
+count_unique <- function(x) {
+  return (length(unique(x)))
+}
+
+# get the name of all the character columns in the dataset and assign it to a variable
+data %>% sapply(is.character) %>%
+         which() %>%
+         names() ->
+char_var
+
+# count the unique values of each column
+data[char_var] %>% sapply(count_unique)
+```
+
+This is our result:
+
+```
+ChestPainType     RestingECG ExerciseAngina       ST_Slope
+             4              3              2              3
+```
+
+Each variable contains very few number of values, or categories, hence they can all be treated as factors. Instead of doing the conversion column by column, there are faster ways this can be achieved with either base R functions, or with `dplyr`.
+
+##### Base R: lapply
+
+We can use `lapply` to loop through each column of a given dataframe and convert it to factor using `as.factor`.
+
+```r
+data[char_var] %<>%
+  lapply(as.factor) %>%
+  data.frame()
+```
+
+`lapply` returns a list of columns, which is then converted back to a dataframe. I noted one interesting point here. We can convert multiple columns to other types such as numeric or character using a simple `sapply(as.numeric)` or `sapply(as.character)` function. With factors, however, 2 steps are involved, and `lapply` is used instead of `sapply`.
+
+The reason for this is that factor is a special type that cannot be contained in a matrix or array. `sapply` by default returns either an atomic vector, matrix, or an array. These types can store logical, integer, real, complex, string/character, and raw; but not factor. `lapply` returns a list, which can store objects of any type, hence retains the factor type without reducing it to character.
+
+##### `dplyr`
+
+An even neater way of converting multiple columns to factor is using `dplyr::across()` function.
+
+```r
+data[char_var] %<>% mutate(across(everything(), as.factor))
+```
+
+The `mutate` function changes the columns within the dataframe, whereas the `across` function takes in a list of columns, and loops a provided function through each of them. The double pipe then reassigns the results back to the dataframe.
+
+
+### Get counts of each category
+
+With factor variables, a common descriptive statistic is the count of each category. In R, you can get the counts of one column, counts of multiple columns, and cross-tab counts of multiple columns.
+
+#### Counts of one or multiple columns
+
+The function to get the counts of factor variables is `table()`, and there are many ways to use it in a workflow.
+
+```r
+# Method 1
+data %>% select(ChestPainType) %>% table()
+
+# Method 2
+data %>% with(., table(ChestPainType))
+
+# results:
+ChestPainType
+ASY ATA NAP  TA 
+496 173 203  46
+```
+
+Both methods return the counts of each category within `ChestPainType` column. The `with` function specifies the dataframe `data` as the environment from which the `ChestPainType` column is drawn from. If you just run `data %>% table(ChestPainType)`, you will get an error that `ChestPainType` variable does not exist.
+
+You can also get counts of multiple columns by using `sapply` to loop the `table` function through all selected columns.
+
+```r
+data[char_var] %>% sapply(table)
+
+# results:
+$ChestPainType
+
+ASY ATA NAP  TA 
+496 173 203  46 
+
+$RestingECG
+
+   LVH Normal     ST 
+   188    552    178 
+
+$ExerciseAngina
+
+  N   Y 
+547 371 
+
+$ST_Slope
+
+Down Flat   Up 
+  63  460  395 
+```
+
+#### Get cross-tab frequencies
+
+By passing 2 columns in the `table` function, you'll get a cross tabulation of those two columns.
+
+```r
+data %>% with(table(ChestPainType,ExerciseAngina))
+
+# results:
+             ExerciseAngina
+ChestPainType   N   Y
+          ASY 199 297
+          ATA 156  17
+          NAP 152  51
+          TA   40   6
+```
+
+#### Get counts as proportion
+
+If you want to get the proportion instead of raw counts, you can use the `prop.table()` function.
+
+```r
+data %>% with(., table(ChestPainType)) %>% prop.table()
+
+# results:
+ChestPainType
+       ASY        ATA        NAP         TA
+0.54030501 0.18845316 0.22113290 0.05010893
+```
+
+---
+categories: r
+---
+pub_date: 2022-04-25
