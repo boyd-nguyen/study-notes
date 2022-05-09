@@ -17,7 +17,7 @@ a.dropdown-item, a.nav-link {
   color: #595959;
 }
 
-header nav ul a {
+header nav ul a, a {
   font-family: 'Space Mono', monospace;
   color: #595959;
 }
@@ -180,4 +180,8 @@ div#nav-bar {
   left: 0;
   right: 0;
   position: fixed;
+}
+
+.bg-primary {
+  background-color: #595959 !important;
 }
