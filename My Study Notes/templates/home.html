@@ -11,13 +11,15 @@
 <title>Boyd Nguyen</title>
 
 <body>
-  <header>
-    <div id="nav-bar" class="d-flex flex-column">
-      <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-          <a href="{{ '/'|url }}" {% if this._path=='/' %} class="active nav-link" {% endif%}
-            class="nav-link">About</a>
-        </li>
+  <main>
+    
+    <div id="home" class="container">
+      <h2>{{ this.title }}</h2>
+      {{ this.body }}
+    </div>
+    
+    <div id="nav-home">
+      <ul class="nav justify-content-center pb-10">
 
         <li class="nav-item">
           <a href="{{ '/blog'|url }}" {% if this.is_child_of("blog") %} class="active nav-link" {% endif%}
@@ -33,17 +35,15 @@
           <a href="{{ '/book-notes'|url }}" {% if this.is_child_of("book-notes") %} class="active nav-link" {% endif%}
           class="nav-link">Book notes</a>
         </li>
-
       </ul>
-    </div>
-  </header>
-  <div class="container">
-    {% block body %}{% endblock %}
   </div>
-  
-  <div class="container footer">
+
+  </main>
+
+  <div class="footer-home">
     <footer>
-      &copy; Copyright 2022 by Boyd Nguyen.
+      Built with Lektor and hosted by Github Pages.
     </footer>
-</div>
-</body>
+  </div>
+
+  </body>

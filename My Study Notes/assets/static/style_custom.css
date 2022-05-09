@@ -9,7 +9,7 @@ body {
     background-color: #f5f6f6;
     color: #330000;
     font-variant-ligatures: none;
-    font-size: 19px;
+    font-size: 1.2rem;
 }
 
 a.dropdown-item, a.nav-link {
@@ -36,6 +36,10 @@ h1, .meta {
   text-align: center;
 }
 
+.meta {
+  color: lightslategray;
+}
+
 h2 {
   margin-bottom: 5%;
   text-align: center;
@@ -58,7 +62,7 @@ h2.title {
   font-size: 24px;
 }
 
-header{
+header {
   padding-top: 3%;
 }
 
@@ -93,7 +97,9 @@ pre {
 }
 
 .container {
-  max-width: 60em !important;
+  width: 100%;
+  margin-left: 20%;
+  margin-top: 5%;
 }
 
 div.body {
@@ -128,9 +134,50 @@ pre.poem {
   text-align: center;
   border: transparent;
   font-size: inherit;
+  font-family: "IBM Plex Mono", monospace;
+  background-color: transparent;
 }
 
 .list-group-item {
   background-color: inherit !important;
 }
 
+div#nav-bar {
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 30%;
+  left: 7%;
+  background-color: transparent;
+  overflow-x: hidden;
+  padding-top: 20px;
+
+}
+
+#home, #nav-home {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+#home {
+  height: 400px;
+}
+
+#nav-home {
+  height: 20px;
+}
+
+.footer-home {
+  margin-top: 15%;
+  color: lightslategray;
+  text-align: center;
+  font-size: 10pt;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  position: fixed;
+}
