@@ -142,7 +142,7 @@ pre.poem {
   background-color: inherit !important;
 }
 
-div#nav-bar {
+#nav-bar {
   height: 100%;
   position: fixed;
   z-index: 1;
@@ -184,4 +184,23 @@ div#nav-bar {
 
 .bg-primary {
   background-color: #595959 !important;
+}
+
+@media print{
+  @page {
+    margin: 2cm;
+  }
+
+  body, div.body {
+    font-size: 14px;
+  }
+
+  .container {
+    margin-left: 0%;
+    width: 150%;
+  }
+
+  nav * {
+    display: none;
+  }
 }
