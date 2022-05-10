@@ -9,7 +9,7 @@ body {
     background-color: #f5f6f6;
     color: #330000;
     font-variant-ligatures: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 a.dropdown-item, a.nav-link {
@@ -59,7 +59,7 @@ p, li {
 h2.title {
   text-align: center;
   color: #0066b9;
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 header {
